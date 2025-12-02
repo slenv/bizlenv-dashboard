@@ -116,7 +116,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
   return (
     <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''} `}>
       {/* Sidebar Header */}
-      <div className="sidebar-header">
+      <div className="sidebar-header justify-center">
         <div className="logo">
           <img
             src="/header_logo.png"
