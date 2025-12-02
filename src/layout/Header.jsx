@@ -137,7 +137,7 @@ export default function Header({ isSidebarCollapsed, setIsSidebarCollapsed }) {
               border: 'none'
             }}
           >
-            <div className="avatar">JD</div>
+            <div className="avatar">LP</div>
             <ChevronDown size={16} />
           </button>
 
@@ -160,7 +160,7 @@ export default function Header({ isSidebarCollapsed, setIsSidebarCollapsed }) {
                 padding: 'var(--spacing-md)',
                 borderBottom: '1px solid var(--color-border-light)'
               }}>
-                <div style={{ fontWeight: 600, fontSize: '14px' }}>Juan Pérez</div>
+                <div style={{ fontWeight: 600, fontSize: '14px' }}>Lino Palomino</div>
                 <div style={{ fontSize: '12px', color: 'var(--color-text-tertiary)' }}>
                   admin@bizlenv.com
                 </div>

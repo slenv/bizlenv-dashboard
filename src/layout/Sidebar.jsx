@@ -235,11 +235,11 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
             width: '32px',
             height: '32px'
           }}>
-            JD
+            LP
           </div>
           {!isCollapsed && (
             <div className="nav-item-label">
-              <div style={{ fontWeight: 600, fontSize: '14px' }}>Juan Pérez</div>
+              <div style={{ fontWeight: 600, fontSize: '14px' }}>Lino Palomino</div>
               <div style={{ fontSize: '12px', color: 'var(--color-text-tertiary)' }}>
                 Admin
               </div>
