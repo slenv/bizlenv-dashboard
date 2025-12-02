@@ -1,12 +1,58 @@
-# React + Vite
+# Bizlenv Dashboard Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plantilla de interfaz moderna y responsiva para sistemas comerciales, diseñada para acelerar el desarrollo de aplicaciones empresariales. Este proyecto ofrece una estructura de UI/UX profesional lista para ser integrada con tu lógica de negocio y backend.
 
-Currently, two official plugins are available:
+## 🚀 Características del Template
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Diseño UI/UX Premium**: Estética limpia y moderna inspirada en aplicaciones líderes, con soporte nativo para modo oscuro/claro.
+- **Layout Responsivo**: Estructura adaptable que funciona perfectamente en móviles, tablets y escritorio.
+- **Componentes de Interfaz**:
+  - **Dashboard**: Vistas pre-diseñadas para métricas, gráficas y tablas de datos.
+  - **Punto de Venta (POS)**: Interfaz completa de caja con catálogo, carrito y modales de pago (lógica de UI implementada).
+  - **Navegación Avanzada**: Sidebar colapsable con animaciones fluidas y menús anidados.
+  - **Header Funcional**: Incluye selector de sucursales, notificaciones y menú de usuario.
+- **Sistema de Diseño**: Configuración robusta de Tailwind CSS y variables CSS para fácil personalización de marca.
 
-## Expanding the ESLint configuration
+## 🛠️ Stack Tecnológico
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Framework**: React + Vite
+- **Estilos**: Tailwind CSS + CSS Variables
+- **Iconos**: Lucide React
+- **Routing**: React Router DOM
+
+## 📦 Instalación
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone <url-del-repositorio>
+   cd bizlenv-dashboard
+   ```
+
+2. **Instalar dependencias**
+   ```bash
+   pnpm install
+   # o
+   npm install
+   ```
+
+3. **Ver el demo**
+   ```bash
+   pnpm dev
+   ```
+
+## 📂 Estructura
+
+```
+src/
+├── components/      # Componentes UI reutilizables (Modales, Botones, etc.)
+├── layout/          # Estructura base (Sidebar, Header)
+├── pages/           # Vistas de ejemplo (Dashboard, POS, Productos)
+└── main.css         # Definición del sistema de diseño
+```
+
+## 🎨 Personalización
+
+Este template está construido para ser fácilmente adaptable. Puedes cambiar la paleta de colores principal editando las variables en `src/main.css` o la configuración en `tailwind.config.js`.
+
+---
+Template de UI creado para Bizlenv.
