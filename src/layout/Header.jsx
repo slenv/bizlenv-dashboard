@@ -1,135 +1,242 @@
-export default function Header() {
+import { useState, useRef, useEffect } from 'react'
+import { Bell, ChevronDown, LogOut, Settings, User, Building2, Menu } from 'lucide-react'
+import ThemeToggle from '@/components/ThemeToggle'
+
+export default function Header({ isSidebarCollapsed, setIsSidebarCollapsed }) {
+  const [showUserMenu, setShowUserMenu] = useState(false)
+  const [showBranchMenu, setShowBranchMenu] = useState(false)
+  const [selectedBranch, setSelectedBranch] = useState('Sucursal Principal')
+
+  const userMenuRef = useRef(null)
+  const branchMenuRef = useRef(null)
+
+  const branches = [
+    'Sucursal Principal',
+    'Sucursal Norte',
+    'Sucursal Sur',
+    'Sucursal Centro'
+  ]
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setShowUserMenu(false)
+      }
+      if (branchMenuRef.current && !branchMenuRef.current.contains(event.target)) {
+        setShowBranchMenu(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   return (
-    <header className="bg-zinc-800">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-14 items-center justify-between">
-          <div className="flex-1 md:flex md:items-center gap-5 text-lg">
-            <a className="flex items-center gap-3 text-bizlenv-logo" href="#">
-              <span className="sr-only">Bizlenv</span>
-              <img src="/header_logo.png" alt="Bizlenv" className="h-5" />
-              <span className="font-bold">Bizlenv</span>
-            </a>
-            <span className="text-gray-500">/</span>
-            <span className="text-gray-300 text-uppercase">Inicio</span>
-          </div>
+    <header className="header">
+      {/* Mobile Menu Button */}
+      <button
+        className="btn btn-ghost btn-icon md:hidden"
+        onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        aria-label="Toggle menu"
+      >
+        <Menu size={20} />
+      </button>
 
-          <div className="md:flex md:items-center md:gap-12">
-            <nav aria-label="Global" className="hidden md:block">
-              <ul className="flex items-center gap-6 text-sm">
-                <li>
-                  <a className="text-gray-300 transition hover:text-gray-400/75" href="#"> About </a>
-                </li>
+      {/* Left Section - Branch Selector */}
+      <div className="header-left">
+        {/* Branch Selector Dropdown */}
+        <div style={{ position: 'relative' }} ref={branchMenuRef}>
+          <button
+            className="btn btn-ghost"
+            onClick={() => setShowBranchMenu(!showBranchMenu)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--spacing-sm)',
+              padding: 'var(--spacing-sm) var(--spacing-md)',
+              fontSize: '16px',
+              fontWeight: 600,
+              border: 'none'
+            }}
+          >
+            <Building2 size={20} />
+            {selectedBranch}
+            <ChevronDown size={16} />
+          </button>
 
-                <li>
-                  <a className="text-gray-300 transition hover:text-gray-400/75" href="#"> Careers </a>
-                </li>
+          {/* Branch Dropdown Menu */}
+          {showBranchMenu && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 4px)',
+              left: 0,
+              backgroundColor: 'var(--color-bg-primary)',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: 'var(--shadow-lg)',
+              minWidth: '220px',
+              zIndex: 'var(--z-dropdown)',
+              border: '1px solid var(--color-border-light)',
+              overflow: 'hidden'
+            }}>
+              {branches.map((branch) => (
+                <button
+                  key={branch}
+                  onClick={() => {
+                    setSelectedBranch(branch)
+                    setShowBranchMenu(false)
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: 'var(--spacing-md)',
+                    border: 'none',
+                    background: branch === selectedBranch ? 'var(--color-bg-hover)' : 'transparent',
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: branch === selectedBranch ? 600 : 400,
+                    color: branch === selectedBranch ? 'var(--color-primary)' : 'var(--color-text-primary)',
+                    transition: 'background-color var(--transition-fast)'
+                  }}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-bg-hover)'}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = branch === selectedBranch ? 'var(--color-bg-hover)' : 'transparent'
+                  }}
+                >
+                  {branch}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
-                <li>
-                  <a className="text-gray-300 transition hover:text-gray-400/75" href="#"> History </a>
-                </li>
+      {/* Center Section - Empty (removed search) */}
+      <div className="header-center" />
 
-                <li>
-                  <a className="text-gray-300 transition hover:text-gray-400/75" href="#"> Services </a>
-                </li>
+      {/* Right Section - Notifications and User */}
+      <div className="header-right">
+        {/* Theme Toggle */}
+        <ThemeToggle />
 
-                <li>
-                  <a className="text-gray-300 transition hover:text-gray-400/75" href="#"> Projects </a>
-                </li>
+        {/* Notifications */}
+        <button className="btn btn-ghost btn-icon" aria-label="Notificaciones">
+          <Bell size={20} />
+        </button>
 
-                <li>
-                  <a className="text-gray-300 transition hover:text-gray-400/75" href="#"> Blog </a>
-                </li>
-              </ul>
-            </nav>
+        {/* User Dropdown */}
+        <div style={{ position: 'relative' }} ref={userMenuRef}>
+          <button
+            className="btn btn-ghost"
+            onClick={() => setShowUserMenu(!showUserMenu)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--spacing-sm)',
+              padding: 'var(--spacing-xs)',
+              border: 'none'
+            }}
+          >
+            <div className="avatar">JD</div>
+            <ChevronDown size={16} />
+          </button>
 
-            <div className="hidden md:relative md:block">
-              <button
-                type="button"
-                className="overflow-hidden rounded-full border border-gray-300 shadow-inner"
-              >
-                <span className="sr-only">Toggle dashboard menu</span>
-
-                <img
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt=""
-                  className="size-8 object-cover"
-                />
-              </button>
-
-              <div
-                className="absolute end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-zinc-700 bg-zinc-800 shadow-lg"
-                role="menu"
-              >
-                <div className="p-2">
-                  <a
-                    href="#"
-                    className="block rounded-lg px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700"
-                    role="menuitem"
-                  >
-                    My profile
-                  </a>
-
-                  <a
-                    href="#"
-                    className="block rounded-lg px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700"
-                    role="menuitem"
-                  >
-                    Billing summary
-                  </a>
-
-                  <a
-                    href="#"
-                    className="block rounded-lg px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700"
-                    role="menuitem"
-                  >
-                    Team settings
-                  </a>
-                </div>
-
-                <div className="p-2">
-                  <button
-                    type="submit"
-                    className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-500 hover:bg-zinc-900"
-                    role="menuitem"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
-                      />
-                    </svg>
-
-                    Logout
-                  </button>
+          {/* User Dropdown Menu */}
+          {showUserMenu && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 4px)',
+              right: 0,
+              backgroundColor: 'var(--color-bg-primary)',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: 'var(--shadow-lg)',
+              minWidth: '200px',
+              zIndex: 'var(--z-dropdown)',
+              border: '1px solid var(--color-border-light)',
+              overflow: 'hidden'
+            }}>
+              {/* User Info */}
+              <div style={{
+                padding: 'var(--spacing-md)',
+                borderBottom: '1px solid var(--color-border-light)'
+              }}>
+                <div style={{ fontWeight: 600, fontSize: '14px' }}>Juan Pérez</div>
+                <div style={{ fontSize: '12px', color: 'var(--color-text-tertiary)' }}>
+                  admin@bizlenv.com
                 </div>
               </div>
-            </div>
 
-            <div className="block md:hidden">
+              {/* Menu Items */}
               <button
-                className="rounded-sm bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+                onClick={() => setShowUserMenu(false)}
+                style={{
+                  width: '100%',
+                  padding: 'var(--spacing-md)',
+                  border: 'none',
+                  background: 'transparent',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--spacing-sm)',
+                  transition: 'background-color var(--transition-fast)'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-bg-hover)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+                <User size={16} />
+                Mi Perfil
+              </button>
+
+              <button
+                onClick={() => setShowUserMenu(false)}
+                style={{
+                  width: '100%',
+                  padding: 'var(--spacing-md)',
+                  border: 'none',
+                  background: 'transparent',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--spacing-sm)',
+                  transition: 'background-color var(--transition-fast)'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-bg-hover)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                <Settings size={16} />
+                Configuración
+              </button>
+
+              <div style={{ height: '1px', backgroundColor: 'var(--color-border-light)', margin: 'var(--spacing-xs) 0' }} />
+
+              <button
+                onClick={() => setShowUserMenu(false)}
+                style={{
+                  width: '100%',
+                  padding: 'var(--spacing-md)',
+                  border: 'none',
+                  background: 'transparent',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--spacing-sm)',
+                  color: 'var(--color-danger)',
+                  transition: 'background-color var(--transition-fast)'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-bg-hover)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                <LogOut size={16} />
+                Cerrar Sesión
               </button>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </header>
