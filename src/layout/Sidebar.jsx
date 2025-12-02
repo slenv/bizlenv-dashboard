@@ -194,6 +194,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                 key={item.id}
                 href={item.path || `#${item.id} `}
                 className={`nav-item ${isActive ? 'active' : ''}`}
+                title={item.label}
                 onClick={(e) => {
                   e.preventDefault()
                   if (showingSubmenu) {
